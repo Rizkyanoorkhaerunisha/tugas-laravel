@@ -124,6 +124,13 @@
         </div>
     </section>
 
+    <!-- Menampilkan Data dari Form -->
+    <section class="container mt-5">
+        <h2>Pesan Dari Form</h2>
+        <p> {{ session('nama') }}</p>
+        <p> {{ session('message') }}</p>
+    </section>
+
     <!-- Footer -->
     <footer>
         <div class="container text-center">
