@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class HomeController extends Controller
 {
@@ -23,5 +24,24 @@ class HomeController extends Controller
 
     public function form(Request $request){
         $dataMessage = $request->message;
-    }
+
 }
+
+public function store(){
+        $Product = new Product();
+        $Product->nama = "Laptop";
+        $Product->harga = 10000;
+        $Product->stok = 10;
+        $Product->deskripsi ="laptop murah";
+        $Product->save();
+
+        return ('data sukses dikirim');
+
+}
+
+    public function show()
+    {
+        $Product = Product::all();
+        return view("tableProduct",compact("Product"));
+    }
+        }
