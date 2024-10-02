@@ -39,9 +39,72 @@ public function store(){
 
 }
 
+public function store1(){
+        $Product = new Product();
+        $Product->nama = "Komputer";
+        $Product->harga = 30000;
+        $Product->stok = 10;
+        $Product->deskripsi ="komputer murah";
+        $Product->save();
+
+        return ('data sukses dikirim');
+
+}
+
+public function store2(){
+        $Product = new Product();
+        $Product->nama = "Tablet";
+        $Product->harga = 20000;
+        $Product->stok = 10;
+        $Product->deskripsi ="Tablet murah";
+        $Product->save();
+
+        return ('data sukses dikirim');
+
+}
+
+public function store3(){
+        $Product = new Product();
+        $Product->nama = "Smartwatch";
+        $Product->harga = 60000;
+        $Product->stok = 10;
+        $Product->deskripsi ="Smartwatch murah";
+        $Product->save();
+
+        return ('data sukses dikirim');
+
+}
+
     public function show()
     {
-        $Product = Product::all();
-        return view("tableProduct",compact("Product"));
-    }
+        $Products = Product::all();
+        return view('tableProduct', ['Products' => $Products]);
+
         }
+
+    public function edit($id)
+    {
+
+        $Product =  product::findOrFail($id);
+
+        return view("editProduct",compact("Product"));
+    }
+
+    public function update (Request $request, $id){
+
+        $Product = Product::findOrFail ($id);
+        $Product->nama = $request->nama;
+        $Product->harga = $request->harga;
+        $Product->stok = $request->stok;
+        $Product->deskripsi = $request->deskripsi;
+        $Product->save();
+        return redirect('/show');
+
+    }
+
+    public function destroy($id){
+        $Product = Product::findOrFail($id);
+        $Product->delete();
+        return redirect('/show');
+    }
+}

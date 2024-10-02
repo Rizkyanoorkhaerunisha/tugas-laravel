@@ -3,55 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie-edge">
     <title>Daftar Produk</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
         }
-        table, th, td {
-            border: 1px solid black;
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #333;
+            margin-top: 50px;
+        }
+        table {
+            width: 80%;
+            margin: 50px auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
         }
         th, td {
-            padding: 8px;
+            padding: 15px 20px;
             text-align: left;
         }
         th {
+            background-color: #2c3e50;
+            color: white;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
             background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #eaeaea;
+        }
+        td {
+            border-bottom: 1px solid #ddd;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        form {
+            display: inline-block;
         }
     </style>
 </head>
 <body>
 
-<h2>Daftar Produk</h2>
+    <h2>Daftar Produk</h2>
 
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nama Produk</th>
-            <th>Harga</th>
-            <th>Stok</th>
-            <th>Deskripsi</th>
-            <th>created_at</th>
-            <th>updated_at</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($Product as $item)
-        <tr>
-            <td>{{ $item->id }}</td>
-            <td>{{ $item->nama }}</td>
-            <td>{{ $item->harga }}</td>
-            <td>{{ $item->stok }}</td>
-            <td>{{ $item->deskripsi }}</td>
-            <td>{{ $item->created_at }}</td>
-            <td>{{ $item->updated_at }}</td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+    <table>
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Harga</th>
+                <th>Stok</th>
+                <th>Deskripsi</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($Products as $Product)
+                <tr>
+                    <td>{{ $Product->nama }}</td>
+                    <td>{{ $Product->harga }}</td>
+                    <td>{{ $Product->stok }}</td>
+                    <td>{{ $Product->deskripsi }}</td>
+                    <td>
+                        <form action="/products/{{ $Product->id }}/edit" method="GET">
+                            <button type="submit">Edit</button>
+                        </form>
+                        <form action="/products/{{ $Product->id }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 
 </body>
 </html>
