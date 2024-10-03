@@ -29,7 +29,7 @@
             overflow: hidden;
         }
         th, td {
-            padding: 15px 20px;
+            padding: 20px 20px;
             text-align: left;
         }
         th {
@@ -62,15 +62,46 @@
         form {
             display: inline-block;
         }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 20px 0;
+        }
+        .pagination li {
+            margin: 0 5px;
+        }
+        .pagination li a {
+            display: block;
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+        .pagination li a:hover {
+            background-color: #2980b9;
+        }
+        .pagination li.active a {
+            background-color: #2c3e50;
+            cursor: default;
+        }
+        .pagination li.disabled a {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
 
     <h2>Daftar Produk</h2>
-
     <table>
         <thead>
             <tr>
+                <th>No</th>
                 <th>Nama</th>
                 <th>Harga</th>
                 <th>Stok</th>
@@ -79,17 +110,18 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($Products as $Product)
+            @foreach ($Products as $index => $product)
                 <tr>
-                    <td>{{ $Product->nama }}</td>
-                    <td>{{ $Product->harga }}</td>
-                    <td>{{ $Product->stok }}</td>
-                    <td>{{ $Product->deskripsi }}</td>
+                    <th scope="row">{{ $index + $Products->firstItem() }}</th>
+                    <td>{{ $product->nama }}</td>
+                    <td>{{ $product->harga }}</td>
+                    <td>{{ $product->stok }}</td>
+                    <td>{{ $product->deskripsi }}</td>
                     <td>
-                        <form action="/products/{{ $Product->id }}/edit" method="GET">
+                        <form action="/products/{{ $product->id }}/edit" method="GET">
                             <button type="submit">Edit</button>
                         </form>
-                        <form action="/products/{{ $Product->id }}" method="POST">
+                        <form action="/products/{{ $product->id }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit">Hapus</button>
@@ -99,6 +131,8 @@
             @endforeach
         </tbody>
     </table>
-
+    <div class="pagination">
+        {{ $Products->links() }}
+    </div>
 </body>
 </html>

@@ -77,7 +77,7 @@ public function store3(){
 
     public function show()
     {
-        $Products = Product::all();
+        $Products = Product::Paginate(4);
         return view('tableProduct', ['Products' => $Products]);
 
         }
