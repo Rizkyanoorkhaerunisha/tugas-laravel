@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Product;
 
@@ -27,53 +28,28 @@ class HomeController extends Controller
 
 }
 
-public function store(){
-        $Product = new Product();
-        $Product->nama = "Laptop";
-        $Product->harga = 10000;
-        $Product->stok = 10;
-        $Product->deskripsi ="laptop murah";
+    public function store(Request $request){
+
+        $validator = validator::make($request->all(), [
+            'nama' => 'required|string|max:225',
+            'stok' => 'required|integer|min:50',
+            'harga' => 'required|numeric|min:2',
+            'deskripsi' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $Product = new product();
+        $Product->nama = $request->nama;
+        $Product->harga = $request->harga;
+        $Product->stok = $request->stok;
+        $Product->deskripsi = $request->deskripsi;
         $Product->save();
 
-        return ('data sukses dikirim');
-
-}
-
-public function store1(){
-        $Product = new Product();
-        $Product->nama = "Komputer";
-        $Product->harga = 30000;
-        $Product->stok = 10;
-        $Product->deskripsi ="komputer murah";
-        $Product->save();
-
-        return ('data sukses dikirim');
-
-}
-
-public function store2(){
-        $Product = new Product();
-        $Product->nama = "Tablet";
-        $Product->harga = 20000;
-        $Product->stok = 10;
-        $Product->deskripsi ="Tablet murah";
-        $Product->save();
-
-        return ('data sukses dikirim');
-
-}
-
-public function store3(){
-        $Product = new Product();
-        $Product->nama = "Smartwatch";
-        $Product->harga = 60000;
-        $Product->stok = 10;
-        $Product->deskripsi ="Smartwatch murah";
-        $Product->save();
-
-        return ('data sukses dikirim');
-
-}
+        return redirect()->back();
+    }
 
     public function show()
     {
@@ -107,4 +83,9 @@ public function store3(){
         $Product->delete();
         return redirect('/show');
     }
+
+    public function input(){
+        return view("inputProduct");
+    }
+
 }

@@ -39,3 +39,7 @@ Route::get('/products/{id}/edit', [HomeController::class, 'edit']);
 Route::put('/products/{id}', [HomeController::class, 'update']);
 
 Route::delete('/products/{id}', [HomeController::class, 'destroy']);
+
+Route::get('/input', [HomeController::class, 'input']);
+
+Route::post('/create', [HomeController::class, 'store']);
